@@ -19,11 +19,11 @@
         "AWS",
         "S3"
     ],
-    "activationEvents": [
-    ],
+    "activationEvents": [],
     "main": "./out/extension.js",
     "contributes": {
-        "commands": [ {
+        "commands": [
+            {
                 "command": "S3TreeView.Refresh",
                 "title": "Refresh",
                 "icon": "$(refresh)"
@@ -109,7 +109,8 @@
             }
         ],
         "menus": {
-            "view/title": [ {
+            "view/title": [
+                {
                     "command": "S3TreeView.ShowOnlyFavorite",
                     "when": "view == S3TreeView",
                     "group": "navigation@1"
@@ -150,7 +151,8 @@
                     "group": "other"
                 }
             ],
-            "view/item/context": [ {
+            "view/item/context": [
+                {
                     "command": "S3TreeView.AddToFav",
                     "when": "view == S3TreeView",
                     "group": "Filter"
@@ -208,23 +210,29 @@
             ]
         },
         "viewsContainers": {
-            "activitybar": [ {
-                "id": "aws-s3-vscode-extension",
-                "title": "AWS S3 Browser",
-                "icon": "media/aws-s3-logo-activitybar.png"
-            } ]
+            "activitybar": [
+                {
+                    "id": "aws-s3-vscode-extension",
+                    "title": "AWS S3 Browser",
+                    "icon": "media/aws-s3-logo-activitybar.png"
+                }
+            ]
         },
         "views": {
-            "aws-s3-vscode-extension": [ {
-                "id": "S3TreeView",
-                "name": "Aws S3",
-                "icon": "media/aws-s3-logo-activitybar.png"
-            } ]
+            "aws-s3-vscode-extension": [
+                {
+                    "id": "S3TreeView",
+                    "name": "AWS S3 (트리뷰)",
+                    "icon": "media/aws-s3-logo-activitybar.png"
+                }
+            ]
         },
-        "viewsWelcome": [ {
-            "view": "S3TreeView",
-            "contents": "\n\n\n\n Please wait... \n\n If you can not connect after a while check your Aws Credentials, Network and Proxy settings. \n\n\n\n To Access Aws, you need to configure aws credentials. \n For more detail on Aws Credentials [Click Here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) \n For a Youtube Tutorial [Click Here](https://www.youtube.com/watch?v=SON8sY1iOBU)"
-        } ]
+        "viewsWelcome": [
+            {
+                "view": "S3TreeView",
+                "contents": "\n\n\n\n Please wait... \n\n If you can not connect after a while check your Aws Credentials, Network and Proxy settings. \n\n\n\n To Access Aws, you need to configure aws credentials. \n For more detail on Aws Credentials [Click Here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) \n For a Youtube Tutorial [Click Here](https://www.youtube.com/watch?v=SON8sY1iOBU)"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
@@ -235,6 +243,7 @@
         "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
+        "@types/aws-sdk": "^2.7.0",
         "@types/glob": "^8.0.0",
         "@types/mocha": "^10.0.0",
         "@types/node": "^18.11.3",
