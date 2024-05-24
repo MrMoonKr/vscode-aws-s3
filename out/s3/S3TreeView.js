@@ -9,6 +9,9 @@ const ui = require("../common/UI");
 const api = require("../common/API");
 const S3Explorer_1 = require("./S3Explorer");
 const S3Search_1 = require("./S3Search");
+/**
+ * TreeView of S3 resources
+ */
 class S3TreeView {
     constructor(context) {
         this.FilterString = "";

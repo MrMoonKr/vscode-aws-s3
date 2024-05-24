@@ -31,10 +31,16 @@ function showOutputMessage(message, popupMessage = "Results are printed to OUTPU
     }
 }
 exports.showOutputMessage = showOutputMessage;
+/**
+ * vscode.OutputChannel.appendLine() 랩퍼 함수
+ * @param message
+ * @param error
+ */
 function logToOutput(message, error) {
     let now = new Date().toLocaleString();
     if (!logsOutputChannel) {
         logsOutputChannel = vscode.window.createOutputChannel("AwsS3-Log");
+        logsOutputChannel.show(true);
     }
     if (typeof message === "object") {
         logsOutputChannel.appendLine("[" + now + "] " + JSON.stringify(message, null, 4));
@@ -51,14 +57,27 @@ function logToOutput(message, error) {
     }
 }
 exports.logToOutput = logToOutput;
+/**
+ * vscode.window.showInformationMessage() 랩퍼 함수
+ * @param message
+ */
 function showInfoMessage(message) {
     vscode.window.showInformationMessage(message);
 }
 exports.showInfoMessage = showInfoMessage;
+/**
+ * vscode.window.showWarningMessage() 랩퍼 함수
+ * @param message
+ */
 function showWarningMessage(message) {
     vscode.window.showWarningMessage(message);
 }
 exports.showWarningMessage = showWarningMessage;
+/**
+ * vscode.window.showErrorMessage() 랩퍼 함수
+ * @param message
+ * @param error
+ */
 function showErrorMessage(message, error) {
     if (error) {
         vscode.window.showErrorMessage(message + NEW_LINE + error.name + NEW_LINE + error.message);

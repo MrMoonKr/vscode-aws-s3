@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreeItemType = exports.S3TreeItem = void 0;
 /* eslint-disable @typescript-eslint/naming-convention */
 const vscode = require("vscode");
+/**
+ * S3 노드 ( 트리노드 )
+ */
 class S3TreeItem extends vscode.TreeItem {
     constructor(text, treeItemType) {
         super(text);
@@ -13,7 +16,11 @@ class S3TreeItem extends vscode.TreeItem {
         this.TreeItemType = treeItemType;
         this.refreshUI();
     }
+    /**
+     * 노드의 아이콘 설정 및 컨텍스트 설정
+     */
     refreshUI() {
+        // https://code.visualstudio.com/api/references/icons-in-labels#icon-listing
         if (this.TreeItemType === TreeItemType.Bucket) {
             this.iconPath = new vscode.ThemeIcon('package');
             this.contextValue = "Bucket";
@@ -63,6 +70,9 @@ class S3TreeItem extends vscode.TreeItem {
     }
 }
 exports.S3TreeItem = S3TreeItem;
+/**
+ * S3 노드 타입
+ */
 var TreeItemType;
 (function (TreeItemType) {
     TreeItemType[TreeItemType["Bucket"] = 1] = "Bucket";
