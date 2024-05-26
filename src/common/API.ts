@@ -72,6 +72,7 @@ export function GetCredentials() {
 }
 
 function GetS3Client() {
+    
     let s3 = undefined;
 
     let credentials = GetCredentials();
@@ -93,9 +94,11 @@ function GetEC2Client() {
 }
 
 export async function GetS3ObjectList( Bucket: string, Key: string ): Promise<MethodResult<AWS.S3.ListObjectsV2Output | undefined>> {
+
     let result: MethodResult<AWS.S3.ListObjectsV2Output | undefined> = new MethodResult<AWS.S3.ListObjectsV2Output | undefined>();
 
-    try {
+    try 
+    {
         const s3 = GetS3Client();
 
         let param = {

@@ -101,6 +101,10 @@ export function getExtensionVersion() {
     return extVersion;
 }
 
+/**
+ * vscode.open 컴맨드 랩퍼 함수
+ * @param file 
+ */
 export function openFile( file: string ) {
     vscode.commands.executeCommand( 'vscode.open', vscode.Uri.file( file ), vscode.ViewColumn.One );
 }

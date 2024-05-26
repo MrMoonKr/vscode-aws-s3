@@ -53,6 +53,12 @@ class S3Explorer {
     }
     ResetCurrentState() {
     }
+    /**
+     *
+     * @param extensionUri
+     * @param node
+     * @param changeKey
+     */
     static Render(extensionUri, node, changeKey = undefined) {
         ui.logToOutput('S3Explorer.Render Started');
         if (S3Explorer.Current) {

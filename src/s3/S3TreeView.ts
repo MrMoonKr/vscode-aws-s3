@@ -254,6 +254,7 @@ export class S3TreeView {
     }
 
     async Goto( node: S3TreeItem ) {
+
         ui.logToOutput( 'S3TreeView.Goto Started' );
 
         if ( node.TreeItemType !== TreeItemType.Bucket ) { return; }
@@ -335,6 +336,7 @@ export class S3TreeView {
     }
 
     async ShowS3Explorer( node: S3TreeItem ) {
+
         ui.logToOutput( 'S3TreeView.ShowS3Explorer Started' );
 
 
@@ -349,6 +351,7 @@ export class S3TreeView {
     }
 
     async SelectAwsProfile( node: S3TreeItem ) {
+        
         ui.logToOutput( 'S3TreeView.SelectAwsProfile Started' );
 
         if ( !api.IsSharedIniFileCredentials() ) {
@@ -370,11 +373,14 @@ export class S3TreeView {
     }
 
     async UpdateAwsEndPoint() {
+        
         ui.logToOutput( 'S3TreeView.UpdateAwsEndPoint Started' );
 
         let awsEndPointUrl = await vscode.window.showInputBox( { placeHolder: 'Enter Aws End Point URL (Leave Empty To Return To Default)' } );
         if ( awsEndPointUrl === undefined ) { return; }
-        if ( awsEndPointUrl.length === 0 ) { this.AwsEndPoint = undefined; }
+
+        if ( awsEndPointUrl.length === 0 ) { 
+            this.AwsEndPoint = undefined; }
         else {
             this.AwsEndPoint = awsEndPointUrl;
         }
