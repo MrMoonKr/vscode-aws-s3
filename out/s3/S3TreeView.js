@@ -17,7 +17,11 @@ class S3TreeView {
         this.FilterString = "";
         this.isShowOnlyFavorite = false;
         this.isShowHiddenNodes = false;
+        /**
+         * AWS Credential Profile
+         */
         this.AwsProfile = "default";
+        this.AwsRegion = "ap-northeast-2";
         ui.logToOutput('TreeView.constructor Started');
         this.context = context;
         this.treeDataProvider = new S3TreeDataProvider_1.S3TreeDataProvider();
@@ -104,7 +108,24 @@ class S3TreeView {
         this.SaveState();
     }
     async SetViewTitle() {
-        this.view.title = "Aws S3";
+        this.view.title = "AWS S3 ( 브라우저뷰 )";
+        await this.SelectRegion();
+    }
+    async SelectRegion() {
+        ui.logToOutput('S3TreeView.SelectRegion Started');
+        let result = await api.GetRegionList();
+        const quickPickRegions = result.result.map((region) => {
+            return { label: region, description: region };
+        });
+        const selection = await vscode.window.showQuickPick(quickPickRegions, { placeHolder: 'Select Region' });
+        if (selection) {
+            this.AwsRegion = selection.label;
+            this.view.title = "AWS S3 ( " + this.AwsRegion + " )";
+        }
+        else {
+            // do nothing
+        }
+        ui.logToOutput('S3TreeView.SelectRegion Successfull');
     }
     SaveState() {
         ui.logToOutput('S3TreeView.saveState Started');
@@ -155,7 +176,10 @@ class S3TreeView {
                 this.treeDataProvider.ViewType = ViewTypeTemp;
             }
             let AwsEndPointTemp = this.context.globalState.get('AwsEndPoint');
-            this.AwsEndPoint = AwsEndPointTemp;
+            if (AwsEndPointTemp) {
+                this.AwsEndPoint = AwsEndPointTemp;
+            }
+            //this.AwsEndPoint = AwsEndPointTemp;
             ui.logToOutput("S3TreeView.loadState Successfull");
         }
         catch (error) {

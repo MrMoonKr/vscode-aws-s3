@@ -69,10 +69,11 @@ function GetCredentials() {
     return credentials;
 }
 exports.GetCredentials = GetCredentials;
-function GetS3Client() {
+function GetS3Client(region = "ap-northeast-2") {
     let s3 = undefined;
     let credentials = GetCredentials();
-    s3 = new AWS.S3({ credentials: credentials, endpoint: S3TreeView.S3TreeView.Current?.AwsEndPoint });
+    //s3 = new AWS.S3( { credentials: credentials, endpoint: S3TreeView.S3TreeView.Current?.AwsEndPoint } );
+    s3 = new AWS.S3({ credentials: credentials, region: region });
     return s3;
 }
 function GetIAMClient() {

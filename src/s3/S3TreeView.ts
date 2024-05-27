@@ -22,8 +22,13 @@ export class S3TreeView {
     public FilterString: string = "";
     public isShowOnlyFavorite: boolean = false;
     public isShowHiddenNodes: boolean = false;
+    /**
+     * AWS Credential Profile
+     */
     public AwsProfile: string = "default";
     public AwsEndPoint: string | undefined;
+
+    public AwsRegion: string = "ap-northeast-2" ;
 
     constructor( context: vscode.ExtensionContext ) {
 
@@ -50,6 +55,7 @@ export class S3TreeView {
     }
 
     Refresh(): void {
+
         ui.logToOutput( 'S3TreeView.refresh Started' );
 
         vscode.window.withProgress( {
@@ -65,6 +71,7 @@ export class S3TreeView {
     }
 
     LoadTreeItems() {
+
         ui.logToOutput( 'S3TreeView.loadTreeItems Started' );
 
         //this.treeDataProvider.LoadRegionNodeList();
@@ -138,7 +145,31 @@ export class S3TreeView {
     }
 
     async SetViewTitle() {
-        this.view.title = "Aws S3";
+        this.view.title = "AWS S3 ( 브라우저뷰 )";
+
+        await this.SelectRegion();
+    }
+
+    private async SelectRegion() {
+
+        ui.logToOutput( 'S3TreeView.SelectRegion Started' );
+
+        let result = await api.GetRegionList();
+
+        const quickPickRegions: vscode.QuickPickItem[] = result.result.map( ( region: string ) => {
+            return { label: region, description: region };
+        } );
+
+        const selection = await vscode.window.showQuickPick( quickPickRegions, { placeHolder: 'Select Region' } );
+        if ( selection ) {
+            this.AwsRegion = selection.label;
+            this.view.title = "AWS S3 ( " + this.AwsRegion + " )";
+        }
+        else {
+            // do nothing
+        }
+
+        ui.logToOutput( 'S3TreeView.SelectRegion Successfull' );
     }
 
     SaveState() {
@@ -161,8 +192,11 @@ export class S3TreeView {
     }
 
     LoadState() {
+
         ui.logToOutput( 'S3TreeView.loadState Started' );
-        try {
+
+        try 
+        {
 
             let AwsProfileTemp: string | undefined = this.context.globalState.get( 'AwsProfile' );
             if ( AwsProfileTemp ) {
@@ -175,10 +209,14 @@ export class S3TreeView {
             }
 
             let ShowOnlyFavoriteTemp: boolean | undefined = this.context.globalState.get( 'ShowOnlyFavorite' );
-            if ( ShowOnlyFavoriteTemp ) { this.isShowOnlyFavorite = ShowOnlyFavoriteTemp; }
+            if ( ShowOnlyFavoriteTemp ) { 
+                this.isShowOnlyFavorite = ShowOnlyFavoriteTemp; 
+            }
 
             let ShowHiddenNodesTemp: boolean | undefined = this.context.globalState.get( 'ShowHiddenNodes' );
-            if ( ShowHiddenNodesTemp ) { this.isShowHiddenNodes = ShowHiddenNodesTemp; }
+            if ( ShowHiddenNodesTemp ) { 
+                this.isShowHiddenNodes = ShowHiddenNodesTemp; 
+            }
 
             let BucketListTemp: string[] | undefined = this.context.globalState.get( 'BucketList' );
             if ( BucketListTemp ) {
@@ -196,7 +234,10 @@ export class S3TreeView {
             }
 
             let AwsEndPointTemp: string | undefined = this.context.globalState.get( 'AwsEndPoint' );
-            this.AwsEndPoint = AwsEndPointTemp;
+            if ( AwsEndPointTemp ) {
+                this.AwsEndPoint = AwsEndPointTemp;
+            }
+            //this.AwsEndPoint = AwsEndPointTemp;
 
             ui.logToOutput( "S3TreeView.loadState Successfull" );
 
@@ -373,7 +414,7 @@ export class S3TreeView {
     }
 
     async UpdateAwsEndPoint() {
-        
+
         ui.logToOutput( 'S3TreeView.UpdateAwsEndPoint Started' );
 
         let awsEndPointUrl = await vscode.window.showInputBox( { placeHolder: 'Enter Aws End Point URL (Leave Empty To Return To Default)' } );

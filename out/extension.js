@@ -4,6 +4,10 @@ exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
 const ui = require("./common/UI");
 const S3TreeView_1 = require("./s3/S3TreeView");
+/**
+ * VS Code Extension Starting Point
+ * @param context
+ */
 function activate(context) {
     ui.logToOutput('Aws S3 Extension activation started');
     let treeView = new S3TreeView_1.S3TreeView(context);
@@ -64,11 +68,11 @@ function activate(context) {
     vscode.commands.registerCommand('S3TreeView.AwsCredentialsSetup', () => {
         treeView.AwsCredentialsSetup();
     });
-    ui.logToOutput('Aws S3 Extension activation completed');
+    ui.logToOutput('AWS S3 Extension activation completed');
 }
 exports.activate = activate;
 function deactivate() {
-    ui.logToOutput('Aws S3 is now de-active!');
+    ui.logToOutput('AWS S3 is now de-active!');
 }
 exports.deactivate = deactivate;
 //# sourceMappingURL=extension.js.map

@@ -71,12 +71,13 @@ export function GetCredentials() {
     return credentials
 }
 
-function GetS3Client() {
+function GetS3Client( region = "ap-northeast-2") {
     
     let s3 = undefined;
 
     let credentials = GetCredentials();
-    s3 = new AWS.S3( { credentials: credentials, endpoint: S3TreeView.S3TreeView.Current?.AwsEndPoint } );
+    //s3 = new AWS.S3( { credentials: credentials, endpoint: S3TreeView.S3TreeView.Current?.AwsEndPoint } );
+    s3 = new AWS.S3( { credentials: credentials, region: region } );
 
     return s3;
 }
@@ -482,10 +483,12 @@ export async function TestAwsConnection(): Promise<MethodResult<boolean>> {
 }
 
 export async function GetRegionList(): Promise<MethodResult<string[]>> {
+
     let result: MethodResult<string[]> = new MethodResult<string[]>();
     result.result = [];
 
-    try {
+    try 
+    {
         const ec2 = GetEC2Client()
         let response = await ec2.describeRegions().promise();
 
@@ -497,10 +500,13 @@ export async function GetRegionList(): Promise<MethodResult<string[]>> {
                 }
             }
         }
+
         return result;
+
     } catch ( error: any ) {
         result.isSuccessful = false;
         result.error = error;
+        
         ui.showErrorMessage( 'api.GetRegionList Error !!!', error );
         ui.logToOutput( "api.GetRegionList Error !!!", error );
         return result;
